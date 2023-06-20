@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-group 'com.hrzc.lib.tools'
+group 'com.hhrzc.lib.tools'
 version '0.0.1-SNAPSHOT'
 
 repositories {
@@ -14,6 +14,8 @@ ext{
     git_token=System.getenv("TOOLS_DT")
 }
 
+print(git_token)
+
 publishing {
     publications {
         library(MavenPublication) {
@@ -22,7 +24,7 @@ publishing {
     }
     repositories {
         maven {
-            url "https://gitlab.com/api/v4/projects/46638027/packages/maven"
+            url "https://gitlab.com/api/v4/projects/47009346/packages/maven"
             credentials(HttpHeaderCredentials) {
                 name = "Deploy-Token"
                 value = git_token
