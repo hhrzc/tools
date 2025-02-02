@@ -5,10 +5,7 @@ import com.hrzc.lib.tools.exceptions.MethodNotFoundException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 
 public class EnumUtils {
@@ -43,7 +40,7 @@ public class EnumUtils {
      * @param value - the name of expected enum
      * @return Instance of the enum
      */
-    public static <T extends Enum> T getEnumByValueContainsEnumName(Class<T> clazz, String value) {
+    public static <T extends Enum<T>> T getEnumByValueContainsEnumName(Class<T> clazz, String value) {
         T[] enums = clazz.getEnumConstants();
         Optional<T> result = Arrays.stream(enums)
                 .filter(p -> value.toLowerCase().trim().contains(p.name().toLowerCase().trim()))
@@ -58,14 +55,14 @@ public class EnumUtils {
     /**
      * This method retrieves enum by the value that returned by certain method.
      * To define a method, the method name is used as a string value.
-     *
+     * <p>
      * For the instance we have some enum:
      * class enum Example{
      * FOO("foo value"), BAR("bar value");
      * private String value;
      * Example(String value){this.value = value;}
      * public getValue(){return value;}}
-     *
+     * <p>
      * For this enum if we need to receive BAR instance by "bar value" string,
      * we have to use this method in following way:
      * {Example example = EnumUtils.getEnumByMethodName(
@@ -78,7 +75,7 @@ public class EnumUtils {
      * @param value      - expected value that have to be returned by {@param methodName}
      * @return Instance of the enum
      */
-    public static <T extends Enum> T getEnumByMethodName(Class<T> clazz, String methodName, String value) {
+    public static <T extends Enum<T>> T getEnumByMethodName(Class<T> clazz, String methodName, String value) {
         value = value.trim().toLowerCase();
         value = value.replace(" ", "");
         try {
@@ -103,12 +100,12 @@ public class EnumUtils {
     /**
      * This method retrieves enum by the function that returns searching value.
      *
-     * @param clazz      - Class of the enum instance
-     * @param func       - function that returns value for the searching
-     * @param value      - expected value that have to be returned by {@param func}
+     * @param clazz - Class of the enum instance
+     * @param func  - function that returns value for the searching
+     * @param value - expected value that have to be returned by {@param func}
      * @return Instance of the enum
      */
-    public static <T extends Enum> T getEnumByFunction(Class<T> clazz,
+    public static <T extends Enum<T>> T getEnumByFunction(Class<T> clazz,
                                                        Function<T, String> func,
                                                        String value) {
         value = value.trim().toLowerCase();
@@ -123,7 +120,7 @@ public class EnumUtils {
                         .replace(" ", "")
                         .toLowerCase();
                 valuesForReport.add(actualValue);
-                if(value.equals(actualValue)){
+                if (value.equals(actualValue)) {
                     return t;
                 }
             }
@@ -137,4 +134,22 @@ public class EnumUtils {
         }
     }
 
+    /**
+     * Returns a random value from the specified enum class.
+     *
+     * @param <T>    the type of the enum
+     * @param tClass the enum class from which to get a random value
+     * @return a random value from the specified enum class
+     * @throws IllegalArgumentException if the specified class is not an enum
+     */
+    public static <T extends Enum<T>> T getRandomEnum(Class<T> tClass) {
+        if (!tClass.isEnum()) {
+            throw new IllegalArgumentException("The specified class is not an enum.");
+        }
+
+        T[] enumConstants = tClass.getEnumConstants();
+        final Random r = new Random();
+        int randomIndex = r.nextInt(enumConstants.length);
+        return enumConstants[randomIndex];
+    }
 }
