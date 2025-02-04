@@ -2,13 +2,14 @@ package com.hrzc.lib.tools.exceptions;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EnumNotFoundException extends RuntimeException {
     public <T extends Enum<T>> EnumNotFoundException(Class<T> clazz, T[] enums, String value) {
         super("The enum %s doesn't contains value %s. Available values: [%s]"
                 .formatted(clazz.getName(),
                         value,
-                        Arrays.stream(enums).map(Enum::name).toArray(String[]::new)));
+                        Arrays.stream(enums).map(Enum::name).collect(Collectors.joining(", "))));
     }
 
     public <T extends Enum<T>> EnumNotFoundException(
