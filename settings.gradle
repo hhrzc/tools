@@ -1,0 +1,4 @@
+rootProject.name = 'com.hhrzc.tools'
+include 'out-object'
+include 'enum-utils'
+

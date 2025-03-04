@@ -1,50 +1,41 @@
-plugins {
-    id 'java'
-    id 'maven-publish'
-}
+group = 'com.hhrzc.tools'
+version = '0.1.1-SNAPSHOT'
 
-group 'com.hhrzc.lib.tools'
-version '0.0.4-SNAPSHOT'
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
 
-repositories {
-    mavenCentral()
-}
-
-ext {
-    git_token = System.getenv("TOOLS_DT")
-}
-
-print(git_token)
-
-publishing {
-    publications {
-        library(MavenPublication) {
-            from components.java
-        }
-    }
     repositories {
-        maven {
-            url "https://gitlab.com/api/v4/projects/47009346/packages/maven"
-            credentials(HttpHeaderCredentials) {
-                name = "Deploy-Token"
-                value = git_token
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifactId = project.name
             }
-            authentication {
-                header(HttpHeaderAuthentication)
+        }
+        repositories {
+            maven {
+                url "https://gitlab.com/api/v4/projects/47009346/packages/maven"
+                credentials(HttpHeaderCredentials) {
+                    name = "Deploy-Token"
+                    value = System.getenv("TOOLS_DT")
+                }
+                authentication {
+                    header(HttpHeaderAuthentication)
+                }
             }
         }
     }
-}
-
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-}
-
-repositories {
-    mavenCentral()
-}
-
-test {
-    useJUnitPlatform()
 }
