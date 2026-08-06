@@ -10,9 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/enum-utils" />
-            <option value="$PROJECT_DIR$/enumutils" />
             <option value="$PROJECT_DIR$/out-object" />
-            <option value="$PROJECT_DIR$/outobject" />
           </set>
         </option>
       </GradleProjectSettings>
