@@ -1,4 +1,10 @@
-.idea
-/build
-.idea/*
-.gradle
+# Block the entire directory structures
+.idea/
+.gradle/
+build/
+bin/
+out/
+
+# Block compiled files
+*.class
+*.iml
