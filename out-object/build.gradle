@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-version = '0.1.1-SNAPSHOT'
+version = '0.1.1'
 
 repositories {
     mavenCentral()
@@ -11,8 +11,18 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 test {
     useJUnitPlatform()
+}
+
+mavenPublishing {
+    coordinates('io.github.hhrzc', 'out-object', version.toString())
+
+    pom {
+        name = 'Out Object'
+        description = 'A tiny utility for emulating C#-style out parameters in Java — mutable holder objects (Out, BiOut, CollectionOut, EqualsOut) for passing values back out of methods and lambdas.'
+    }
 }

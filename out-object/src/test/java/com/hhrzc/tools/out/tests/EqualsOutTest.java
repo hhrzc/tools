@@ -1,5 +1,7 @@
 package com.hhrzc.tools.out.tests;
 
+import com.hhrzc.tools.out.BiOut;
+import com.hhrzc.tools.out.Out;
 import com.hhrzc.tools.out.impl.EqualsOutObjects;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +11,16 @@ public class EqualsOutTest {
     @Test
     void testSetAndGet() {
         EqualsOutObjects<String> biOut = new EqualsOutObjects<>();
+        biOut.setFirst("Alice");
+        biOut.setSecond("25");
+
+        assertEquals("Alice", biOut.getFirst());
+        assertEquals("25", biOut.getSecond());
+    }
+
+    @Test
+    void testSetAndGetInterface() {
+        BiOut<String, String> biOut = new EqualsOutObjects<>();
         biOut.setFirst("Alice");
         biOut.setSecond("25");
 

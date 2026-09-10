@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-version = '0.0.4-SNAPSHOT'
+version = '0.1.0'
 
 repositories {
     mavenCentral()
@@ -11,8 +11,18 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 test {
     useJUnitPlatform()
+}
+
+mavenPublishing {
+    coordinates('io.github.hhrzc', 'enum-utils', version.toString())
+
+    pom {
+        name = 'EnumUtils'
+        description = 'Small reflection-based utility library for resolving Java enum constants — by exact name, by a value contained in the name, or by the result of a custom method — with clear, dedicated exceptions when nothing matches.'
+    }
 }

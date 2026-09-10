@@ -11,7 +11,8 @@ public class ArrayListOut<T> implements CollectionOut<T> {
     private List<T> tList;
 
     @Override
-    public void add(T... t) {
+    @SafeVarargs
+    public final void add(T... t) {
         if (Objects.isNull(tList)) {
             throw new ObjectIsNotInstantiatedException(
                     "List is not instantiated. Please use set() method to instantiate a list before using add()."

@@ -1,9 +1,14 @@
-group = 'com.hhrzc.tools'
-version = '0.1.1-SNAPSHOT'
+plugins {
+    id 'java-library'
+    id 'signing'
+    id 'com.vanniktech.maven.publish' version '0.37.0'
+}
+
+group = 'io.github.hhrzc'
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'maven-publish'
+    apply plugin: 'com.vanniktech.maven.publish'
 
     repositories {
         mavenCentral()
@@ -18,23 +23,33 @@ subprojects {
         useJUnitPlatform()
     }
 
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                from components.java
-                artifactId = project.name
+    // Shared Maven Central publishing config for every module.
+    // Module-specific bits (coordinates, name, description) live in each
+    // module's own build.gradle.
+    mavenPublishing {
+        publishToMavenCentral()
+        signAllPublications()
+
+        pom {
+            url = "https://github.com/hhrzc/tools"
+            licenses {
+                license {
+                    name = "MIT License"
+                    url = "https://opensource.org/licenses/MIT"
+                    distribution = "https://opensource.org/licenses/MIT"
+                }
             }
-        }
-        repositories {
-            maven {
-                url "https://gitlab.com/api/v4/projects/47009346/packages/maven"
-                credentials(HttpHeaderCredentials) {
-                    name = "Deploy-Token"
-                    value = System.getenv("TOOLS_DT")
+            developers {
+                developer {
+                    id = "hhrzc"
+                    name = "Valentyn"
+                    url = "https://github.com/hhrzc/"
                 }
-                authentication {
-                    header(HttpHeaderAuthentication)
-                }
+            }
+            scm {
+                url = "https://github.com/hhrzc/tools/"
+                connection = "scm:git:git://github.com/hhrzc/tools.git"
+                developerConnection = "scm:git:ssh://git@github.com/hhrzc/tools.git"
             }
         }
     }
