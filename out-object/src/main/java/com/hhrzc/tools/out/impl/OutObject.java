@@ -19,7 +19,8 @@ public class OutObject<T> implements Out<T> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof OutObject<?> outObject)) return false;
+        if (!(o instanceof OutObject)) return false;
+        OutObject<?> outObject = (OutObject<?>) o;
         return Objects.equals(t, outObject.t);
     }
 

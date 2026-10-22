@@ -53,4 +53,8 @@ subprojects {
             }
         }
     }
+
+    tasks.named('compileJava', JavaCompile) {
+        options.release = 11
+    }
 }
